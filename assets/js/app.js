@@ -154,37 +154,40 @@ function appendClass(element, className) {
     element.classList.add(className);
 }
 
-function randomNumber() {
-    let number = Math.floor(Math.random() * 999);
+function randonValue() {
+    
     let arrayRandom = Math.floor(Math.random() * 3);
     let array = ['', 'K', 'M'];
 
-    return number + array[arrayRandom];
+    return randomNumber() + array[arrayRandom];
 }
 
-async function loadData(page) {
+function randomNumber() {
+    let number = Math.floor(Math.random() * 999);
+    return number;
+}
+
+async function loadData() {
     const response = await fetch('assets/json/data.json');
     const data = await response.json();
-    let start = page * 21;
-    let end = start + 21;
-    for (let i = start; i < end && i < data.length; i++) {
-        makePost(data[i].profile, data[i].username, data[i].time, data[i].text, data[i].post, randomNumber(), randomNumber(), randomNumber(), randomNumber());
+    for (let i = 0; i < 30; i++) {
+        makePost(data[randomNumber()].profile, data[randomNumber()].username, data[randomNumber()].time, data[randomNumber()].text, data[randomNumber()].post, randonValue(), randonValue(), randonValue(), randonValue());
     }
 }
 
-function loadNextPage() {
-    currentPage++;
-    loadData(currentPage);
-}
-
-function isScrollingToBottom() {
+function bottem() {
     return window.innerHeight + window.scrollY >= document.body.offsetHeight - 100;
 }
 
+function postAmount() {
+    let posts = document.getElementsByClassName("post");
+    console.log(posts);
+}
+
 window.addEventListener('scroll', function() {
-    if (isScrollingToBottom()) {
-        loadNextPage();
+    if (bottem()) {
+        loadData();
     }
 });
 
-loadNextPage();
+loadData();
